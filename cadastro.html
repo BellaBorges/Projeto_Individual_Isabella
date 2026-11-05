@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miau Diary - Criar conta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="pg-form">
+    <header>
+        <h1>Miau Diary</h1>
+        <nav>
+            <a href="index.html#inicio">Início</a>
+            <a href="index.html#sobre">Sobre mim</a>
+            <a href="index.html#gatos">Meus gatos</a>
+            <a href="index.html#motivo">Por que gatos</a>
+            <a href="login.html">Entrar</a>
+        </nav>
+    </header>
+
+    <section class="sec-cadastro">
+        <div class="conteudo">
+            <h2>🐾 Criar conta</h2>
+            <p>Já tem conta? <a href="login.html">Entre aqui</a>.</p>
+
+            <div class="card form-card form-largo">
+                <div class="linha">
+                    <div>
+                        <label for="ipt_nome">Nome</label>
+                        <input id="ipt_nome" placeholder="Seu nome">
+                    </div>
+                    <div>
+                        <label for="ipt_email">E-mail</label>
+                        <input id="ipt_email" placeholder="voce@email.com">
+                    </div>
+                </div>
+
+                <div class="linha">
+                    <div>
+                        <label for="ipt_senha">Senha</label>
+                        <input id="ipt_senha" type="password" placeholder="Crie uma senha">
+                        <p class="dica">Mínimo de 8 caracteres, com letra e número.</p>
+                    </div>
+                    <div>
+                        <label for="ipt_confirmar">Confirmar senha</label>
+                        <input id="ipt_confirmar" type="password" placeholder="Repita a senha">
+                    </div>
+                </div>
+
+                <button onclick="cadastrar()">Criar conta</button>
+
+                <div id="div_msg"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        🐾 Miau Diary · projeto individual 2026 · feito por Bella
+    </footer>
+
+    <script src="validacao.js"></script>
+</body>
+
+</html>
