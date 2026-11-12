@@ -1,75 +1,76 @@
-function temCaractere(ax_texto, ax_de, ax_ate) {
-    let ax_i = 0;
-    let ax_achou = false;
 
-    while (ax_i < ax_texto.length) {
-        if (ax_texto[ax_i] >= ax_de && ax_texto[ax_i] <= ax_ate) {
-            ax_achou = true;
+function temCaractere(texto, caractereInicial, caractereFinal) {
+    let indice = 0;
+    let encontrou = false;
+
+    while (indice < texto.length) {
+        if (texto[indice] >= caractereInicial && texto[indice] <= caractereFinal) {
+            encontrou = true;
         }
-        ax_i++;
+        indice++;
     }
 
-    return ax_achou;
+    return encontrou;
 }
 
 function cadastrar() {
-    let ax_nome = ipt_nome.value;
-    let ax_email = ipt_email.value;
-    let ax_senha = ipt_senha.value;
-    let ax_confirmar = ipt_confirmar.value;
-    let ax_erros = '';
+    let nome = ipt_nome.value;
+    let email = ipt_email.value;
+    let senha = ipt_senha.value;
+    let confirmarSenha = ipt_confirmar.value;
+    let mensagensErro = '';
 
-    if (ax_nome.length < 3) {
-        ax_erros = ax_erros + 'O nome precisa ter pelo menos 3 letras.<br>';
+    if (nome.length < 3) {
+        mensagensErro = mensagensErro + 'O nome precisa ter pelo menos 3 letras.<br>';
     }
 
-    if (ax_email.includes('@') == false || ax_email.includes('.') == false) {
-        ax_erros = ax_erros + 'Digite um e-mail válido, com @ e ponto.<br>';
+    if (email.includes('@') == false || email.includes('.') == false) {
+        mensagensErro = mensagensErro + 'Digite um e-mail válido, com @ e ponto.<br>';
     }
 
-    if (ax_senha.length < 8) {
-        ax_erros = ax_erros + 'A senha precisa ter pelo menos 8 caracteres.<br>';
+    if (senha.length < 8) {
+        mensagensErro = mensagensErro + 'A senha precisa ter pelo menos 8 caracteres.<br>';
     }
 
-    if (temCaractere(ax_senha, '0', '9') == false) {
-        ax_erros = ax_erros + 'A senha precisa ter pelo menos um número.<br>';
+    if (temCaractere(senha, '0', '9') == false) {
+        mensagensErro = mensagensErro + 'A senha precisa ter pelo menos um número.<br>';
     }
 
-    if (temCaractere(ax_senha.toLowerCase(), 'a', 'z') == false) {
-        ax_erros = ax_erros + 'A senha precisa ter pelo menos uma letra.<br>';
+    if (temCaractere(senha.toLowerCase(), 'a', 'z') == false) {
+        mensagensErro = mensagensErro + 'A senha precisa ter pelo menos uma letra.<br>';
     }
 
-    if (ax_senha != ax_confirmar) {
-        ax_erros = ax_erros + 'A confirmação da senha não é igual à senha.<br>';
+    if (senha != confirmarSenha) {
+        mensagensErro = mensagensErro + 'A confirmação da senha não é igual à senha.<br>';
     }
 
-    if (ax_erros == '') {
+    if (mensagensErro == '') {
         div_msg.className = 'msg-sucesso';
         div_msg.innerHTML = 'Cadastro validado! O salvamento no banco será ligado na próxima etapa.';
     } else {
         div_msg.className = 'msg-erro';
-        div_msg.innerHTML = ax_erros;
+        div_msg.innerHTML = mensagensErro;
     }
 }
 
 function entrar() {
-    let ax_email = ipt_email.value;
-    let ax_senha = ipt_senha.value;
-    let ax_erros = '';
+    let email = ipt_email.value;
+    let senha = ipt_senha.value;
+    let mensagensErro = '';
 
-    if (ax_email.includes('@') == false) {
-        ax_erros = ax_erros + 'Digite o e-mail que você cadastrou.<br>';
+    if (email.includes('@') == false) {
+        mensagensErro = mensagensErro + 'Digite o e-mail que você cadastrou.<br>';
     }
 
-    if (ax_senha == '') {
-        ax_erros = ax_erros + 'Digite a sua senha.<br>';
+    if (senha == '') {
+        mensagensErro = mensagensErro + 'Digite a sua senha.<br>';
     }
 
-    if (ax_erros == '') {
+    if (mensagensErro == '') {
         div_msg.className = 'msg-sucesso';
         div_msg.innerHTML = 'Campos preenchidos! A conferência com o banco será ligada na próxima etapa.';
     } else {
         div_msg.className = 'msg-erro';
-        div_msg.innerHTML = ax_erros;
+        div_msg.innerHTML = mensagensErro;
     }
 }

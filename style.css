@@ -13,11 +13,11 @@ body {
 }
 
 h1, h2, h3 {
-    font-family: Georgia, serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
 }
 
 h2 {
-    color: #5b3fa0;
+    color: #ffffff;
 }
 
 a {
@@ -151,6 +151,27 @@ nav a:hover {
     color: #26233a;
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* CARDS DA SEÇÃO "POR QUE GATOS?" COM TEXTO ALINHADO E PROPORCIONAL */
+.sec-motivo .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.sec-motivo .card h2,
+.sec-motivo .card h3,
+.sec-motivo .card h4,
+.sec-motivo .card strong {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.sec-motivo .card p {
+    margin: 0;
 }
 
 .lista .card {
