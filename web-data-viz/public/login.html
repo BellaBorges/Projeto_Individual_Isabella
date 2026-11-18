@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miau Diary - Entrar</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body class="pg-form">
+    <header>
+        <h1>Miau Diary</h1>
+        <nav>
+            <a href="index.html#inicio">Início</a>
+            <a href="index.html#sobre">Sobre mim</a>
+            <a href="index.html#gatos">Meus gatos</a>
+            <a href="index.html#motivo">Por que gatos</a>
+            <a href="cadastro.html">Cadastrar</a>
+        </nav>
+    </header>
+
+    <section class="sec-login">
+        <div class="conteudo">
+            <h2>🐾 Entrar</h2>
+            <p>Ainda não tem conta? <a href="cadastro.html">Crie a sua aqui</a>.</p>
+
+            <div class="card form-card">
+                <label for="ipt_email">E-mail</label>
+                <input id="ipt_email" placeholder="voce@email.com">
+
+                <label for="ipt_senha">Senha</label>
+                <input id="ipt_senha" type="password" placeholder="Sua senha">
+
+                <button onclick="entrar()">Entrar</button>
+
+                <div id="div_msg"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        🐾 Miau Diary · projeto individual 2026 · feito por Bella
+    </footer>
+
+    <script src="./js/validacao.js"></script>
+</body>
+
+</html>
