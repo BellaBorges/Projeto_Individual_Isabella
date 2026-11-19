@@ -39,11 +39,11 @@ function cadastrar() {
         mensagensErro = mensagensErro + 'A senha precisa ter pelo menos um número.<br>';
     }
 
-    if (temCaractere(senhaServer.toLowerCase(), 'a', 'z') == false) {
+    if (temCaractere(senha.toLowerCase(), 'a', 'z') == false) {
         mensagensErro = mensagensErro + 'A senha precisa ter pelo menos uma letra.<br>';
     }
 
-    if (senhaServer != confirmarSenha) {
+    if (senha != confirmarSenha) {
         mensagensErro = mensagensErro + 'A confirmação da senha não é igual à senha.<br>';
     }
 
@@ -63,13 +63,20 @@ function cadastrar() {
             senha: senha
         })
     })
-        .then(function (resposta) {
+            .then(function (resposta) {
             if (resposta.ok) {
-                div_msg.className = 'msg-sucesso';
-                div_msg.innerHTML = 'Conta criada! Indo para o login...';
-                setTimeout(function () {
-                    window.location = 'login.html';
-                }, 1500);
+                resposta.json().then(function (dados) {
+                    // Guarda os dados na sessão igual ao login
+                    sessionStorage.ID_USUARIO = dados.idUsuario || dados.insertId;
+                    sessionStorage.NOME_USUARIO = nome;
+
+                    div_msg.className = 'msg-sucesso';
+                    div_msg.innerHTML = 'Conta criada! Indo para o painel...';
+
+                    setTimeout(function () {
+                        window.location = 'painel.html';
+                    }, 1500);
+                });
             } else if (resposta.status == 409) {
                 div_msg.className = 'msg-erro';
                 div_msg.innerHTML = 'Esse e-mail já está cadastrado.';
