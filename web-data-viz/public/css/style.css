@@ -53,6 +53,8 @@ header {
     flex-wrap: wrap;
     padding: 14px 30px;
     background-color: #26233a;
+    position: fixed;
+    width: 100%;
     border-bottom: 6px dotted #f2b53c;
 }
 
@@ -75,7 +77,8 @@ nav a:hover {
 
 
 .sec-inicio {
-    overflow: hidden;     
+    overflow: hidden;   
+    padding: 120px 150px 60px 150px;  
 }
 
 .sec-inicio h1 {
