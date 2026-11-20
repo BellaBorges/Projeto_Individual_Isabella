@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
-<body onload="carregarGatos()">
+<body onload="carregarGatos(); carregarVacinas()">
     <header>
         <h1>Miau Diary</h1>
         <nav>
             <a href="./painel.html">Meu painel</a>
-            <a href="./index.html #inicio" onclick="sair()">Sair</a>
+            <a href="#" onclick="sair()">Sair</a>
         </nav>
     </header>
 
@@ -58,20 +58,20 @@
                     <div id="div_msg_peso"></div>
                 </div>
 
-                <!-- REGISTRAR VACINA (tabela vacina) -->
+                <!-- REGISTRAR VACINA (tabela aplicacaoVacina) -->
                 <div class="card">
                     <h3>Registrar vacina</h3>
 
                     <label for="sel_vacina_gato">Gato</label>
                     <select id="sel_vacina_gato"></select>
 
-                    <label for="ipt_vacina_nome">Nome da vacina</label>
-                    <input id="ipt_vacina_nome" placeholder="Ex.: V4, antirrábica">
+                    <label for="sel_vacina">Vacina</label>
+                    <select id="sel_vacina"></select>
 
                     <label for="ipt_vacina_aplicacao">Data da aplicação</label>
                     <input id="ipt_vacina_aplicacao" type="date">
 
-                    <label for="ipt_vacina_proxima">Data da próxima dose</label>
+                    <label for="ipt_vacina_proxima">Data da próxima dose (opcional)</label>
                     <input id="ipt_vacina_proxima" type="date">
 
                     <button onclick="registrarVacina()">Registrar vacina</button>
@@ -81,3 +81,31 @@
                 <!-- REGISTRAR COMPRA DE RAÇÃO (tabela compraRacao) -->
                 <div class="card">
                     <h3>Registrar compra de ração</h3>
+
+                    <label for="sel_compra_gato">Gato</label>
+                    <select id="sel_compra_gato"></select>
+
+                    <label for="ipt_compra_marca">Marca (opcional)</label>
+                    <input id="ipt_compra_marca" placeholder="Ex.: Premier">
+
+                    <label for="ipt_compra_pesokg">Peso do pacote (kg)</label>
+                    <input id="ipt_compra_pesokg" type="number" step="0.01" placeholder="Ex.: 10.1">
+
+                    <label for="ipt_compra_valor">Valor (R$)</label>
+                    <input id="ipt_compra_valor" type="number" step="0.01" placeholder="Ex.: 189.90">
+
+                    <label for="ipt_compra_data">Data da compra</label>
+                    <input id="ipt_compra_data" type="date">
+
+                    <button onclick="registrarCompra()">Registrar compra</button>
+                    <div id="div_msg_compra"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="./js/painel.js"></script>
+</body>
+
+</html>

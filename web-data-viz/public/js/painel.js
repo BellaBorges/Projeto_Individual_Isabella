@@ -41,6 +41,27 @@ function carregarGatos() {
         });
 }
 
+// NOVO: preenche a lista de vacinas com o catálogo da tabela vacina
+function carregarVacinas() {
+    fetch(URL_API + '/vacinas/listar')
+        .then(function (resposta) {
+            resposta.json().then(function (vacinas) {
+                let opcoes = '<option value="">Escolha a vacina</option>';
+                let i = 0;
+
+                while (i < vacinas.length) {
+                    opcoes = opcoes + '<option value="' + vacinas[i].idVacina + '">' + vacinas[i].nome + '</option>';
+                    i++;
+                }
+
+                sel_vacina.innerHTML = opcoes;
+            });
+        })
+        .catch(function () {
+            mostrarMensagem(div_msg_vacina, 'msg-erro', 'Não consegui carregar as vacinas. A API está ligada?');
+        });
+}
+
 // Manda os dados para a API e mostra o resultado na mensagem do formulário
 function enviar(rota, dados, divMsg, textoSucesso, aoTerminar) {
     fetch(URL_API + rota, {
@@ -80,6 +101,11 @@ function cadastrarGato() {
     if (erros != '') {
         mostrarMensagem(div_msg_gato, 'msg-erro', erros);
         return;
+    }
+
+    // CORRIGIDO: data vazia vira null (o MySQL não aceita '' em coluna DATE)
+    if (nascimento == '') {
+        nascimento = null;
     }
 
     enviar('/gatos/cadastrar', {
@@ -129,10 +155,10 @@ function registrarPesagem() {
     });
 }
 
-// ---------- tabela vacina ----------
+// ---------- tabela aplicacaoVacina (gato + vacina) ----------
 function registrarVacina() {
     let fkGato = sel_vacina_gato.value;
-    let nome = ipt_vacina_nome.value;
+    let fkVacina = sel_vacina.value;
     let aplicacao = ipt_vacina_aplicacao.value;
     let proxima = ipt_vacina_proxima.value;
     let erros = '';
@@ -141,13 +167,13 @@ function registrarVacina() {
         erros = erros + 'Escolha o gato.<br>';
     }
 
-    if (nome.length < 2) {
-        erros = erros + 'Digite o nome da vacina.<br>';
+    if (fkVacina == '') {
+        erros = erros + 'Escolha a vacina.<br>';
     }
 
-    if (aplicacao == '' || proxima == '') {
-        erros = erros + 'Preencha a data da aplicação e a da próxima dose.<br>';
-    } else if (proxima < aplicacao) {
+    if (aplicacao == '') {
+        erros = erros + 'Preencha a data da aplicação.<br>';
+    } else if (proxima != '' && proxima < aplicacao) {
         erros = erros + 'A próxima dose não pode ser antes da aplicação.<br>';
     }
 
@@ -156,13 +182,18 @@ function registrarVacina() {
         return;
     }
 
-    enviar('/vacinas/cadastrar', {
-        nome: nome,
+    // A próxima dose é opcional (vacina de dose única): vazia vira null
+    if (proxima == '') {
+        proxima = null;
+    }
+
+    enviar('/aplicacoes/cadastrar', {
         dtAplicacao: aplicacao,
         dtProximaDose: proxima,
-        fkGato: fkGato
+        fkGato: fkGato,
+        fkVacina: fkVacina
     }, div_msg_vacina, 'Vacina registrada!', function () {
-        ipt_vacina_nome.value = '';
+        sel_vacina.value = '';
         ipt_vacina_aplicacao.value = '';
         ipt_vacina_proxima.value = '';
     });
