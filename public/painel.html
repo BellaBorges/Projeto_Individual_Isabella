@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miau Diary - Meu painel</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body onload="carregarGatos(); carregarVacinas(); carregarRacas()">
+    <header>
+        <h1>Miau Diary</h1>
+        <nav>
+            <a href="./painel.html">Meu painel</a>
+            <a href="./dashboard-gatos">Dashboard</a>
+            <a href="#" onclick="sair()">Sair</a>
+        </nav>
+    </header>
+
+    <section class="sec-cadastro">
+        <div class="conteudo">
+            <h2 class="titulo-escuro">🐾 Olá, <span id="nome_usuario"></span>!</h2>
+            <p>Cadastre seus gatos e registre pesagens, vacinas e compras de ração.</p>
+
+            <div class="grade-forms">
+
+                <!-- CADASTRAR GATO (tabela gato) -->
+                <div class="card">
+                    <h3>Cadastrar gato</h3>
+
+                    <label for="ipt_gato_nome">Nome do gato</label>
+                    <input id="ipt_gato_nome" placeholder="Ex.: Paçoca">
+
+                    <label for="sel_gato_raca">Raça</label>
+                    <select id="sel_gato_raca"></select>
+
+                    <label for="ipt_gato_nascimento">Data de nascimento (opcional)</label>
+                    <input id="ipt_gato_nascimento" type="date">
+
+                    <button onclick="cadastrarGato()">Cadastrar gato</button>
+                    <div id="div_msg_gato"></div>
+                </div>
+
+                <!-- REGISTRAR PESAGEM (tabela pesagem) -->
+                <div class="card">
+                    <h3>Registrar pesagem</h3>
+
+                    <label for="sel_peso_gato">Gato</label>
+                    <select id="sel_peso_gato"></select>
+
+                    <label for="ipt_peso">Peso (kg)</label>
+                    <input id="ipt_peso" type="number" step="0.01" placeholder="Ex.: 4.35">
+
+                    <label for="ipt_peso_data">Data da pesagem</label>
+                    <input id="ipt_peso_data" type="date">
+
+                    <button onclick="registrarPesagem()">Registrar pesagem</button>
+                    <div id="div_msg_peso"></div>
+                </div>
+
+                <!-- REGISTRAR VACINA (tabela aplicacaoVacina) -->
+                <div class="card">
+                    <h3>Registrar vacina</h3>
+
+                    <label for="sel_vacina_gato">Gato</label>
+                    <select id="sel_vacina_gato"></select>
+
+                    <label for="sel_vacina">Vacina</label>
+                    <select id="sel_vacina"></select>
+
+                    <label for="ipt_vacina_aplicacao">Data da aplicação</label>
+                    <input id="ipt_vacina_aplicacao" type="date">
+
+                    <label for="ipt_vacina_proxima">Data da próxima dose (opcional)</label>
+                    <input id="ipt_vacina_proxima" type="date">
+
+                    <button onclick="registrarVacina()">Registrar vacina</button>
+                    <div id="div_msg_vacina"></div>
+                </div>
+
+                <!-- REGISTRAR COMPRA DE RAÇÃO (tabela compraRacao) -->
+                <div class="card">
+                    <h3>Registrar compra de ração</h3>
+
+                    <label for="sel_compra_gato">Gato</label>
+                    <select id="sel_compra_gato"></select>
+
+                    <label for="ipt_compra_marca">Marca (opcional)</label>
+                    <input id="ipt_compra_marca" placeholder="Ex.: Premier">
+
+                    <label for="ipt_compra_pesokg">Peso do pacote (kg)</label>
+                    <input id="ipt_compra_pesokg" type="number" step="0.01" placeholder="Ex.: 10.1">
+
+                    <label for="ipt_compra_valor">Valor (R$)</label>
+                    <input id="ipt_compra_valor" type="number" step="0.01" placeholder="Ex.: 189.90">
+
+                    <label for="ipt_compra_data">Data da compra</label>
+                    <input id="ipt_compra_data" type="date">
+
+                    <button onclick="registrarCompra()">Registrar compra</button>
+                    <div id="div_msg_compra"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="./js/painel.js"></script>
+</body>
+
+</html>

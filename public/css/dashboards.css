@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;800&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Barlow', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: black;
+}
+
+:root {
+  --tamanho-header: 80px;
+  --teal: #32b9cd;
+  --ouro: #e3b062;
+  --rosa: #ED145B;
+  --cinza: #e5e5e5;
+}
+
+.container {
+  display: flex;
+  width: 80%;
+  margin: auto;
+}
+
+/* HEADER (igual ao do site) */
+
+.header {
+  height: var(--tamanho-header);
+  border-bottom: 2px solid var(--teal);
+}
+
+.header .container {
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.header a {
+  text-decoration: none;
+  color: var(--ouro);
+}
+
+.agora {
+  font-weight: 800;
+}
+
+.navbar {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  color: var(--ouro);
+  padding: 0;
+}
+
+.titulo {
+  color: var(--teal);
+  width: fit-content;
+  font-weight: 500;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+/* PAINEL */
+
+.painel {
+  padding: 24px 0;
+}
+
+.painel .container {
+  flex-direction: column;
+  gap: 16px;
+}
+
+.painel_titulo {
+  margin: 0;
+  color: white;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+/* ALERTA DE PESO (mesmo estilo do card de erro do site) */
+
+.alerta_peso {
+  display: none;
+  background-color: #fff;
+  color: black;
+  border: var(--rosa) 3px solid;
+  border-radius: 4px;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+/* CARDS */
+
+.card {
+  background-color: var(--cinza);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: palevioletred;
+}
+
+.legenda {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* KPIS */
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.kpi {
+  border-top: 5px solid var(--teal);
+}
+
+.kpi_nome {
+  font-size: 15px;
+  font-weight: 600;
+  color: palevioletred;
+}
+
+.kpi_valor {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 2px 0;
+}
+
+.kpi_detalhe {
+  font-size: 14px;
+  color: #555;
+}
+
+.sobe {
+  color: var(--rosa);
+  font-weight: 800;
+}
+
+.desce {
+  color: #1a8a9b;
+  font-weight: 800;
+}
+
+/* GRAFICOS */
+
+.graficos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.graficos .largo {
+  grid-column: 1 / -1;
+}
+
+.caixa_grafico {
+  position: relative;
+  height: 240px;
+}
+
+/* LISTA DE VACINAS */
+
+#lista_vacinas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+#lista_vacinas li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-top: 1px solid #cfcfcf;
+}
+
+#lista_vacinas b {
+  font-weight: 800;
+}
+
+/* FOOTER (igual ao do site) */
+
+.footer {
+  background-color: var(--teal);
+  height: 70px;
+  color: #fff;
+  display: flex;
+  font-size: 15px;
+}
+
+.footer .container {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* CELULAR */
+
+@media (max-width: 720px) {
+  .container {
+    width: 92%;
+  }
+
+  .graficos {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar {
+    width: 200px;
+  }
+}
