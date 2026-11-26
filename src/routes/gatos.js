@@ -11,6 +11,10 @@ router.get("/vacinas", function (req, res) {
     gatoController.listarVacinas(req, res);
 });
 
+router.get("/usuario/:idUsuario", function (req, res) {
+    gatoController.listarGatos(req, res);
+});
+
 router.post("/cadastrar", function (req, res) {
     gatoController.cadastrarGato(req, res);
 });

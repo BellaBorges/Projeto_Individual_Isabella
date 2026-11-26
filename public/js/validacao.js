@@ -126,7 +126,7 @@ function entrar() {
                     // Guarda quem entrou para usar nas outras páginas
                     sessionStorage.ID_USUARIO = usuario.idUsuario;
                     sessionStorage.NOME_USUARIO = usuario.nome;
-                    window.location = 'painel.html';
+                    window.location = '../painel.html';
                 });
             } else if (resposta.status == 401) {
                 div_msg.className = 'msg-erro';

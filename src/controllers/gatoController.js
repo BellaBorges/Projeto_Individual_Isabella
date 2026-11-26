@@ -6,8 +6,8 @@ function responder(promessa, res) {
             res.status(200).json(resultado);
         })
         .catch(function (erro) {
-            console.log("Erro: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
+            console.log("Erro: ", erro.sqlMessage || erro);
+            res.status(500).json(erro.sqlMessage || "Erro no servidor");
         });
 }
 
@@ -17,6 +17,16 @@ function listarRacas(req, res) {
 
 function listarVacinas(req, res) {
     responder(gatoModel.listarVacinas(), res);
+}
+
+function listarGatos(req, res) {
+    var idUsuario = req.params.idUsuario;
+
+    if (!idUsuario) {
+        res.status(400).send("Informe o usuário!");
+        return;
+    }
+    responder(gatoModel.listarGatos(idUsuario), res);
 }
 
 function cadastrarGato(req, res) {
@@ -74,6 +84,7 @@ function registrarCompra(req, res) {
 module.exports = {
     listarRacas,
     listarVacinas,
+    listarGatos,
     cadastrarGato,
     registrarPesagem,
     registrarVacina,

@@ -1,224 +1,120 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;800&display=swap');
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Barlow', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: black;
+.dash-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
-:root {
-  --tamanho-header: 80px;
-  --teal: #32b9cd;
-  --ouro: #e3b062;
-  --rosa: #ED145B;
-  --cinza: #e5e5e5;
+.dash-topo select {
+    width: auto;
+    min-width: 200px;
 }
 
-.container {
-  display: flex;
-  width: 80%;
-  margin: auto;
+.dash-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
 }
 
-/* HEADER (igual ao do site) */
-
-.header {
-  height: var(--tamanho-header);
-  border-bottom: 2px solid var(--teal);
+.dash-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-.header .container {
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
+.dash-kpi .rotulo {
+    font-size: 14px;
+    font-weight: 700;
+    color: #6b6788;
 }
 
-.header a {
-  text-decoration: none;
-  color: var(--ouro);
+.dash-kpi .valor {
+    font-size: 32px;
+    font-weight: 800;
+    color: #26233d;
 }
 
-.agora {
-  font-weight: 800;
+.dash-kpi .sub {
+    font-size: 13px;
+    color: #6b6788;
 }
 
-.navbar {
-  width: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  list-style: none;
-  color: var(--ouro);
-  padding: 0;
+.dash-alta {
+    color: #2f9e6e;
+    font-weight: 700;
 }
 
-.titulo {
-  color: var(--teal);
-  width: fit-content;
-  font-weight: 500;
+.dash-queda {
+    color: #d6336c;
+    font-weight: 700;
 }
 
-.header h1 {
-  margin: 0;
+.dash-bloco {
+    margin-bottom: 16px;
 }
 
-/* PAINEL */
-
-.painel {
-  padding: 24px 0;
+.dash-duas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
 }
 
-.painel .container {
-  flex-direction: column;
-  gap: 16px;
+.dash-legenda {
+    font-size: 14px;
+    color: #6b6788;
+    margin: 4px 0 12px 0;
 }
 
-.painel_titulo {
-  margin: 0;
-  color: white;
-  font-size: 30px;
-  font-weight: 600;
+.dash-grafico {
+    position: relative;
+    height: 260px;
 }
 
-/* ALERTA DE PESO (mesmo estilo do card de erro do site) */
-
-.alerta_peso {
-  display: none;
-  background-color: #fff;
-  color: black;
-  border: var(--rosa) 3px solid;
-  border-radius: 4px;
-  padding: 10px;
-  font-weight: 500;
-  font-size: 18px;
+.dash-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-/* CARDS */
-
-.card {
-  background-color: var(--cinza);
-  border-radius: 10px;
-  padding: 16px;
+.dash-lista li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    color: #26233d;
 }
 
-.card h3 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 600;
-  color: palevioletred;
+.dash-status {
+    font-weight: 700;
 }
 
-.legenda {
-  margin: 0 0 10px 0;
-  font-size: 14px;
-  color: #555;
+.dash-status.em-dia {
+    color: #2f9e6e;
 }
 
-/* KPIS */
-
-.kpis {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
+.dash-status.atrasada {
+    color: #d6336c;
 }
 
-.kpi {
-  border-top: 5px solid var(--teal);
+.dash-status.sem-reforco {
+    color: #7a7690;
 }
 
-.kpi_nome {
-  font-size: 15px;
-  font-weight: 600;
-  color: palevioletred;
+@media (max-width: 900px) {
+    .dash-kpis {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dash-duas {
+        grid-template-columns: 1fr;
+    }
 }
 
-.kpi_valor {
-  font-size: 36px;
-  font-weight: 800;
-  margin: 2px 0;
-}
-
-.kpi_detalhe {
-  font-size: 14px;
-  color: #555;
-}
-
-.sobe {
-  color: var(--rosa);
-  font-weight: 800;
-}
-
-.desce {
-  color: #1a8a9b;
-  font-weight: 800;
-}
-
-/* GRAFICOS */
-
-.graficos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.graficos .largo {
-  grid-column: 1 / -1;
-}
-
-.caixa_grafico {
-  position: relative;
-  height: 240px;
-}
-
-/* LISTA DE VACINAS */
-
-#lista_vacinas {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: 16px;
-}
-
-#lista_vacinas li {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px 0;
-  border-top: 1px solid #cfcfcf;
-}
-
-#lista_vacinas b {
-  font-weight: 800;
-}
-
-/* FOOTER (igual ao do site) */
-
-.footer {
-  background-color: var(--teal);
-  height: 70px;
-  color: #fff;
-  display: flex;
-  font-size: 15px;
-}
-
-.footer .container {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* CELULAR */
-
-@media (max-width: 720px) {
-  .container {
-    width: 92%;
-  }
-
-  .graficos {
-    grid-template-columns: 1fr;
-  }
-
-  .navbar {
-    width: 200px;
-  }
+@media (max-width: 560px) {
+    .dash-kpis {
+        grid-template-columns: 1fr;
+    }
 }

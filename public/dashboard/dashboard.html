@@ -5,640 +5,379 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miau Diary - Dashboard</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.js"></script>
-
-    <style>
-        :root {
-            --tinta: #2b2540;
-            --fundo: #f4f1fb;
-            --cartao: #ffffff;
-            --borda: #e0daf0;
-            --suave: #6f6a86;
-            --violeta: #6c4ad9;
-            --verde: #14a39a;
-            --rosa: #e0578c;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            background: var(--fundo);
-            color: var(--tinta);
-            font-family: "Nunito", system-ui, sans-serif;
-            line-height: 1.5;
-        }
-
-        header {
-            background: var(--tinta);
-            color: #fff;
-            padding: 14px 24px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-family: "Fredoka", sans-serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 18px;
-            font-weight: 600;
-        }
-
-        nav a:hover,
-        nav a:focus-visible {
-            text-decoration: underline;
-        }
-
-        main {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 28px 20px 48px;
-        }
-
-        /* Topo: nome do gato em destaque + seletor */
-        .topo {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .topo h2 {
-            margin: 0;
-            font-family: "Fredoka", sans-serif;
-            font-weight: 600;
-            font-size: clamp(2.4rem, 7vw, 3.8rem);
-            line-height: 1.05;
-        }
-
-        .topo p {
-            margin: 4px 0 0;
-            color: var(--suave);
-        }
-
-        .seletor label {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .seletor select {
-            font: inherit;
-            padding: 10px 14px;
-            min-width: 200px;
-            border: 1.5px solid var(--borda);
-            border-radius: 10px;
-            background: var(--cartao);
-            color: var(--tinta);
-        }
-
-        select:focus-visible,
-        a:focus-visible {
-            outline: 3px solid var(--violeta);
-            outline-offset: 2px;
-        }
-
-        /* KPIs */
-        .kpis {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-
-        .kpi,
-        .grafico,
-        .tabela-card {
-            background: var(--cartao);
-            border: 1px solid var(--borda);
-            border-radius: 14px;
-            padding: 18px 20px;
-        }
-
-        .kpi h3 {
-            margin: 0;
-            font-size: 1rem;
-            font-weight: 700;
-        }
-
-        .kpi .valor {
-            font-family: "Fredoka", sans-serif;
-            font-weight: 600;
-            font-size: 2.2rem;
-            line-height: 1.2;
-            margin: 6px 0 2px;
-        }
-
-        .kpi p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--suave);
-        }
-
-        .kpi.peso .valor { color: var(--violeta); }
-        .kpi.gasto .valor { color: var(--verde); }
-        .kpi.vacina .valor { color: var(--rosa); }
-        .kpi .sobe { color: var(--rosa); }
-        .kpi .desce { color: var(--verde); }
-
-        /* Gráficos */
-        .graficos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-
-        .grafico h3,
-        .tabela-card h3 {
-            margin: 0 0 2px;
-            font-size: 1.1rem;
-        }
-
-        .grafico .legenda {
-            margin: 0 0 12px;
-            font-size: 0.9rem;
-            color: var(--suave);
-        }
-
-        .caixa-canvas {
-            position: relative;
-            height: 270px;
-        }
-
-        .vazio {
-            display: none;
-            margin: 0;
-            padding: 60px 10px;
-            text-align: center;
-            color: var(--suave);
-        }
-
-        .vazio a {
-            color: var(--violeta);
-            font-weight: 700;
-        }
-
-        /* Tabela de vacinas */
-        .tabela-rolagem {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th,
-        td {
-            text-align: left;
-            padding: 10px 8px;
-            border-bottom: 1px solid var(--borda);
-        }
-
-        th {
-            font-weight: 700;
-            color: var(--suave);
-        }
-
-        #aviso {
-            display: none;
-            background: #fdecf3;
-            border: 1px solid var(--rosa);
-            border-radius: 10px;
-            padding: 12px 16px;
-            margin-bottom: 18px;
-        }
-
-        @media (max-width: 480px) {
-            .graficos {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../css/dashboards.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body>
+<body onload="carregarGatos()">
     <header>
         <h1>Miau Diary</h1>
         <nav>
-            <a href="painel.html">Meu painel</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="#" onclick="sair()">Sair</a>
+            <a href="../painel.html">Meu painel</a>
+            <a onclick="sair()">Sair</a>
         </nav>
     </header>
 
-    <main>
-        <div id="aviso"></div>
+    <section class="sec-cadastro">
+        <div class="conteudo">
 
-        <div class="topo">
-            <div>
-                <h2 id="nome_gato">Carregando...</h2>
-                <p id="info_gato"></p>
+            <div class="dash-topo">
+                <h2 class="titulo-escuro" id="titulo_dash">🐾 Dashboard</h2>
+                <select id="sel_gato" onchange="carregarDashboard()"></select>
             </div>
-            <div class="seletor">
-                <label for="sel_gato">Escolha o gato</label>
-                <select id="sel_gato" onchange="mostrarGato()"></select>
+
+            <div id="div_aviso"></div>
+
+            <div class="dash-kpis">
+                <div class="card dash-kpi">
+                    <span class="rotulo">Peso atual</span>
+                    <span class="valor" id="kpi_peso">—</span>
+                    <span class="sub" id="kpi_peso_sub">Sem pesagens</span>
+                </div>
+
+                <div class="card dash-kpi">
+                    <span class="rotulo">Gasto com ração no mês</span>
+                    <span class="valor" id="kpi_gasto">—</span>
+                    <span class="sub" id="kpi_gasto_sub">Sem compras</span>
+                </div>
+
+                <div class="card dash-kpi">
+                    <span class="rotulo">Vacinas em dia</span>
+                    <span class="valor" id="kpi_vacinas">—</span>
+                    <span class="sub" id="kpi_vacinas_sub">Sem vacinas</span>
+                </div>
+
+                <div class="card dash-kpi">
+                    <span class="rotulo">Duração da ração</span>
+                    <span class="valor" id="kpi_racao">—</span>
+                    <span class="sub" id="kpi_racao_sub">Sem compras</span>
+                </div>
             </div>
+
+            <div class="card dash-bloco">
+                <h3>Peso ao longo dos meses</h3>
+                <p class="dash-legenda">Peso do gato em cada mês (kg).</p>
+                <div class="dash-grafico">
+                    <canvas id="cnv_peso"></canvas>
+                </div>
+            </div>
+
+            <div class="dash-duas">
+                <div class="card">
+                    <h3>Gasto com ração por mês</h3>
+                    <p class="dash-legenda">Total gasto em reais (R$).</p>
+                    <div class="dash-grafico">
+                        <canvas id="cnv_gasto"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Vacinas</h3>
+                    <p class="dash-legenda">Situação de cada vacina.</p>
+                    <ul class="dash-lista" id="lista_vacinas"></ul>
+                </div>
+            </div>
+
         </div>
+    </section>
 
-        <!-- KPIs -->
-        <section class="kpis" aria-label="Resumo do gato">
-            <div class="kpi peso">
-                <h3>Peso atual</h3>
-                <div class="valor" id="kpi_peso">-</div>
-                <p id="leg_peso"></p>
-            </div>
-            <div class="kpi peso">
-                <h3>Variação de peso</h3>
-                <div class="valor" id="kpi_variacao">-</div>
-                <p id="leg_variacao"></p>
-            </div>
-            <div class="kpi gasto">
-                <h3>Gasto com ração</h3>
-                <div class="valor" id="kpi_gasto">-</div>
-                <p id="leg_gasto"></p>
-            </div>
-            <div class="kpi vacina">
-                <h3>Vacinas aplicadas</h3>
-                <div class="valor" id="kpi_vacinas">-</div>
-                <p id="leg_vacinas"></p>
-            </div>
-        </section>
-
-        <!-- 2 GRÁFICOS -->
-        <section class="graficos">
-            <div class="grafico">
-                <h3>Peso ao longo do tempo</h3>
-                <p class="legenda">Cada ponto é uma pesagem, em kg.</p>
-                <div class="caixa-canvas" id="caixa_peso">
-                    <canvas id="grafico_peso"></canvas>
-                </div>
-                <p class="vazio" id="vazio_peso">Nenhuma pesagem ainda. <a href="painel.html">Registre a primeira</a>.</p>
-            </div>
-
-            <div class="grafico">
-                <h3>Quanto gastei em cada compra de ração</h3>
-                <p class="legenda">Cada barra é uma compra, em reais.</p>
-                <div class="caixa-canvas" id="caixa_gasto">
-                    <canvas id="grafico_gasto"></canvas>
-                </div>
-                <p class="vazio" id="vazio_gasto">Nenhuma compra ainda. <a href="painel.html">Registre a primeira</a>.</p>
-            </div>
-        </section>
-
-        <!-- VACINAS -->
-        <section class="tabela-card">
-            <h3>Vacinas deste gato</h3>
-            <div class="tabela-rolagem">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Vacina</th>
-                            <th>Aplicada em</th>
-                            <th>Próxima dose</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tb_vacinas"></tbody>
-                </table>
-            </div>
-            <p class="vazio" id="vazio_vacinas">Nenhuma vacina registrada. <a href="painel.html">Registre a primeira</a>.</p>
-        </section>
-    </main>
-
-<script>
-    // Quem está logada (o login deve guardar isso no sessionStorage)
-    var idUsuario = sessionStorage.ID_USUARIO;
-
-    var gatos = [];
-    var graficoPeso = null;
-    var graficoGasto = null;
-
-    var COR_PESO = "#6c4ad9";
-    var COR_GASTO = "#14a39a";
-
-    Chart.defaults.font.family = "Nunito, system-ui, sans-serif";
-    Chart.defaults.color = "#6f6a86";
-
-    if (!idUsuario) {
-        window.location = "login.html";
-    } else {
-        carregarGatos();
-    }
-
-    function sair() {
-        sessionStorage.clear();
-        window.location = "login.html";
-    }
-
-    // ---------- Funções de formatação ----------
-    function fmtData(valor) {
-        return new Date(valor).toLocaleDateString("pt-BR");
-    }
-
-    function fmtReal(numero) {
-        return numero.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-    }
-
-    function fmtKg(numero) {
-        return numero.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kg";
-    }
-
-    function mostrarAviso(texto) {
-        var aviso = document.getElementById("aviso");
-        aviso.textContent = texto;
-        aviso.style.display = "block";
-    }
-
-    // ---------- 1) Carregar os gatos e preencher o seletor ----------
-    async function carregarGatos() {
-        try {
-            var resposta = await fetch("/dashboard/gatos/" + idUsuario);
-            if (!resposta.ok) {
-                throw new Error("Erro " + resposta.status);
-            }
-            gatos = await resposta.json();
-        } catch (erro) {
-            console.log(erro);
-            document.getElementById("nome_gato").textContent = "Ops!";
-            mostrarAviso("Não consegui buscar seus gatos. Confira se o servidor e o banco estão rodando.");
-            return;
-        }
-
-        if (gatos.length == 0) {
-            document.getElementById("nome_gato").textContent = "Sem gatos ainda";
-            document.getElementById("info_gato").textContent = "Cadastre um gato no painel para ver o dashboard.";
-            return;
-        }
-
-        var seletor = document.getElementById("sel_gato");
-        seletor.innerHTML = "";
-        for (var i = 0; i < gatos.length; i++) {
-            seletor.appendChild(new Option(gatos[i].nome, gatos[i].id_gato));
-        }
-
-        mostrarGato();
-    }
-
-    // ---------- 2) Mostrar o dashboard do gato escolhido ----------
-    async function mostrarGato() {
-        var idGato = document.getElementById("sel_gato").value;
-        var gato = null;
-
-        for (var i = 0; i < gatos.length; i++) {
-            if (gatos[i].id_gato == idGato) {
-                gato = gatos[i];
-            }
-        }
-
-        document.getElementById("nome_gato").textContent = gato.nome;
-        document.getElementById("info_gato").textContent = textoInfo(gato);
-
-        try {
-            var pesagens = await (await fetch("/dashboard/pesagens/" + idGato)).json();
-            var compras = await (await fetch("/dashboard/compras/" + idGato)).json();
-            var vacinas = await (await fetch("/dashboard/vacinas/" + idGato)).json();
-        } catch (erro) {
-            console.log(erro);
-            mostrarAviso("Não consegui buscar os dados deste gato.");
-            return;
-        }
-
-        document.getElementById("aviso").style.display = "none";
-
-        montarPeso(pesagens);
-        montarGasto(compras);
-        montarVacinas(vacinas);
-    }
-
-    function textoInfo(gato) {
-        var texto = gato.raca;
-
-        if (gato.dtNascimento) {
-            var nascimento = new Date(gato.dtNascimento);
-            var hoje = new Date();
-            var idade = hoje.getFullYear() - nascimento.getFullYear();
-            var jaFezAniversario = hoje.getMonth() > nascimento.getMonth() ||
-                (hoje.getMonth() == nascimento.getMonth() && hoje.getDate() >= nascimento.getDate());
-            if (!jaFezAniversario) {
-                idade--;
-            }
-            texto += ", " + idade + (idade == 1 ? " ano" : " anos");
-        }
-        return texto;
-    }
-
-    // ---------- Peso: KPIs + gráfico de linha ----------
-    function montarPeso(pesagens) {
-        var kpiPeso = document.getElementById("kpi_peso");
-        var legPeso = document.getElementById("leg_peso");
-        var kpiVar = document.getElementById("kpi_variacao");
-        var legVar = document.getElementById("leg_variacao");
-
-        if (graficoPeso) {
-            graficoPeso.destroy();
-            graficoPeso = null;
-        }
-
-        if (pesagens.length == 0) {
-            kpiPeso.textContent = "-";
-            legPeso.textContent = "Sem pesagens";
-            kpiVar.textContent = "-";
-            legVar.textContent = "Sem pesagens";
-            document.getElementById("caixa_peso").style.display = "none";
-            document.getElementById("vazio_peso").style.display = "block";
-            return;
-        }
-
-        document.getElementById("caixa_peso").style.display = "block";
-        document.getElementById("vazio_peso").style.display = "none";
-
-        var datas = [];
-        var pesos = [];
-        for (var i = 0; i < pesagens.length; i++) {
-            datas.push(fmtData(pesagens[i].dt_pesagem));
-            pesos.push(Number(pesagens[i].peso));
-        }
-
-        var ultimo = pesos[pesos.length - 1];
-        kpiPeso.textContent = fmtKg(ultimo);
-        legPeso.textContent = "Pesado em " + datas[datas.length - 1];
-
-        if (pesos.length < 2) {
-            kpiVar.textContent = "-";
-            legVar.textContent = "Precisa de 2 pesagens";
-        } else {
-            var diferenca = ultimo - pesos[0];
-            var sinal = diferenca > 0 ? "+" : "";
-            kpiVar.textContent = sinal + fmtKg(diferenca);
-            kpiVar.className = "valor " + (diferenca > 0 ? "sobe" : "desce");
-            legVar.textContent = diferenca > 0 ? "Engordou desde a 1ª pesagem" :
-                diferenca < 0 ? "Emagreceu desde a 1ª pesagem" : "Igual à 1ª pesagem";
-        }
-
-        graficoPeso = new Chart(document.getElementById("grafico_peso"), {
-            type: "line",
-            data: {
-                labels: datas,
-                datasets: [{
-                    data: pesos,
-                    borderColor: COR_PESO,
-                    backgroundColor: COR_PESO,
-                    borderWidth: 3,
-                    pointRadius: 5,
-                    tension: 0.25
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function (item) { return fmtKg(item.parsed.y); }
-                        }
-                    }
-                },
-                scales: {
-                    y: { title: { display: true, text: "Peso (kg)" } }
-                }
-            }
-        });
-    }
-
-    // ---------- Ração: KPI + gráfico de barras ----------
-    function montarGasto(compras) {
-        var kpiGasto = document.getElementById("kpi_gasto");
-        var legGasto = document.getElementById("leg_gasto");
-
-        if (graficoGasto) {
-            graficoGasto.destroy();
-            graficoGasto = null;
-        }
-
-        if (compras.length == 0) {
-            kpiGasto.textContent = "-";
-            legGasto.textContent = "Sem compras";
-            document.getElementById("caixa_gasto").style.display = "none";
-            document.getElementById("vazio_gasto").style.display = "block";
-            return;
-        }
-
-        document.getElementById("caixa_gasto").style.display = "block";
-        document.getElementById("vazio_gasto").style.display = "none";
-
-        var datas = [];
-        var valores = [];
-        var total = 0;
-        for (var i = 0; i < compras.length; i++) {
-            datas.push(fmtData(compras[i].dt_compra));
-            valores.push(Number(compras[i].valor));
-            total += Number(compras[i].valor);
-        }
-
-        kpiGasto.textContent = fmtReal(total);
-        legGasto.textContent = "Soma de " + compras.length + (compras.length == 1 ? " compra" : " compras");
-
-        graficoGasto = new Chart(document.getElementById("grafico_gasto"), {
-            type: "bar",
-            data: {
-                labels: datas,
-                datasets: [{
-                    data: valores,
-                    backgroundColor: COR_GASTO,
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function (item) { return fmtReal(item.parsed.y); },
-                            afterLabel: function (item) {
-                                var compra = compras[item.dataIndex];
-                                var marca = compra.marca ? compra.marca : "Marca não informada";
-                                return marca + ", pacote de " + Number(compra.pesoKg) + " kg";
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: { beginAtZero: true, title: { display: true, text: "Valor pago (R$)" } }
-                }
-            }
-        });
-    }
-
-    // ---------- Vacinas: KPI + tabela ----------
-    function montarVacinas(vacinas) {
-        var corpo = document.getElementById("tb_vacinas");
-        corpo.innerHTML = "";
-
-        document.getElementById("kpi_vacinas").textContent = vacinas.length;
-
-        if (vacinas.length == 0) {
-            document.getElementById("leg_vacinas").textContent = "Nenhuma registrada";
-            document.getElementById("vazio_vacinas").style.display = "block";
-            return;
-        }
-        document.getElementById("vazio_vacinas").style.display = "none";
-
-        var hoje = new Date();
-        var proxima = null;
-
-        for (var i = 0; i < vacinas.length; i++) {
-            var linha = document.createElement("tr");
-
-            var celulaVacina = document.createElement("td");
-            celulaVacina.textContent = vacinas[i].vacina;
-
-            var celulaAplicacao = document.createElement("td");
-            celulaAplicacao.textContent = fmtData(vacinas[i].dt_aplicacao);
-
-            var celulaProxima = document.createElement("td");
-            if (vacinas[i].dt_proxima_dose) {
-                celulaProxima.textContent = fmtData(vacinas[i].dt_proxima_dose);
-
-                var dataProxima = new Date(vacinas[i].dt_proxima_dose);
-                if (dataProxima >= hoje && (proxima == null || dataProxima < proxima)) {
-                    proxima = dataProxima;
-                }
-            } else {
-                celulaProxima.textContent = "-";
-            }
-
-            linha.appendChild(celulaVacina);
-            linha.appendChild(celulaAplicacao);
-            linha.appendChild(celulaProxima);
-            corpo.appendChild(linha);
-        }
-
-        document.getElementById("leg_vacinas").textContent = proxima
-            ? "Próxima dose em " + fmtData(proxima)
-            : "Nenhuma dose agendada";
-    }
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+    <script src="./js/dashboard.js"></script>
 </body>
 
 </html>
+
+<script>
+    var idUsuario = sessionStorage.ID_USUARIO;
+
+if (!idUsuario) {
+    window.location = "login.html";
+}
+
+
+var CONSUMO_DIARIO_G = 60;
+
+var MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+
+var graficoPeso = null;
+var graficoGasto = null;
+
+function sair() {
+    sessionStorage.clear();
+    window.location = "../login.html";
+}
+
+// ---------- Funções de apoio ----------
+function pegarJson(rota) {
+    return fetch(rota).then(function (resposta) {
+        if (!resposta.ok) {
+            throw new Error("Rota " + rota + " retornou " + resposta.status);
+        }
+        return resposta.json();
+    });
+}
+
+function formatarNumero(numero, casas) {
+    return Number(numero).toFixed(casas).replace(".", ",");
+}
+
+// chave no formato "2026-11" vira "nov/26"
+function nomeMes(chave) {
+    var numero = Number(chave.substring(5, 7));
+    return MESES[numero - 1] + "/" + chave.substring(2, 4);
+}
+
+// ---------- Carregar os gatos no select ----------
+function carregarGatos() {
+    pegarJson("/dashboard/gatos/" + idUsuario)
+        .then(function (gatos) {
+            sel_gato.innerHTML = "";
+
+            if (gatos.length == 0) {
+                div_aviso.textContent = "Você ainda não tem gatos. Cadastre um no Meu painel.";
+                return;
+            }
+
+            for (var i = 0; i < gatos.length; i++) {
+                sel_gato.appendChild(new Option(gatos[i].nome, gatos[i].id_gato));
+            }
+
+            carregarDashboard();
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            div_aviso.textContent = "Não consegui carregar os gatos.";
+        });
+}
+
+// ---------- Carregar os dados do gato escolhido ----------
+function carregarDashboard() {
+    var idGato = sel_gato.value;
+
+    if (idGato == "") {
+        return;
+    }
+
+    div_aviso.textContent = "";
+    titulo_dash.textContent = "🐾 Dashboard de " + sel_gato.options[sel_gato.selectedIndex].text;
+
+    Promise.all([
+        pegarJson("/dashboard/pesagens/" + idGato),
+        pegarJson("/dashboard/compras/" + idGato),
+        pegarJson("/dashboard/vacinas/" + idGato)
+    ])
+        .then(function (resultados) {
+            montarPeso(resultados[0]);
+            montarGasto(resultados[1]);
+            montarVacinas(resultados[2]);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            div_aviso.textContent = "Não consegui carregar os dados do gato.";
+        });
+}
+
+// ---------- Peso ----------
+function montarPeso(pesagens) {
+    var chaves = [];
+    var pesos = [];
+
+    // as pesagens vêm da mais antiga para a mais nova: fica o último peso de cada mês
+    for (var i = 0; i < pesagens.length; i++) {
+        var chave = pesagens[i].dt_pesagem.substring(0, 7);
+
+        if (chaves.length > 0 && chaves[chaves.length - 1] == chave) {
+            pesos[pesos.length - 1] = Number(pesagens[i].peso);
+        } else {
+            chaves.push(chave);
+            pesos.push(Number(pesagens[i].peso));
+        }
+    }
+
+    var rotulos = [];
+    for (var j = 0; j < chaves.length; j++) {
+        rotulos.push(nomeMes(chaves[j]));
+    }
+
+    if (pesos.length == 0) {
+        kpi_peso.textContent = "—";
+        kpi_peso_sub.textContent = "Sem pesagens";
+    } else {
+        var atual = pesos[pesos.length - 1];
+        kpi_peso.textContent = formatarNumero(atual, 2) + " kg";
+
+        if (pesos.length >= 2) {
+            var anterior = pesos[pesos.length - 2];
+            var variacao = (atual - anterior) / anterior * 100;
+
+            if (variacao >= 0) {
+                kpi_peso_sub.innerHTML = '<span class="dash-alta">▲ ' + formatarNumero(variacao, 1) + '%</span> vs. mês anterior';
+            } else {
+                kpi_peso_sub.innerHTML = '<span class="dash-queda">▼ ' + formatarNumero(Math.abs(variacao), 1) + '%</span> vs. mês anterior';
+            }
+        } else {
+            kpi_peso_sub.textContent = "Primeiro mês registrado";
+        }
+    }
+
+    if (graficoPeso) {
+        graficoPeso.destroy();
+    }
+
+    graficoPeso = new Chart(cnv_peso, {
+        type: "line",
+        data: {
+            labels: rotulos,
+            datasets: [{
+                label: "Peso (kg)",
+                data: pesos,
+                borderColor: "#26233d",
+                backgroundColor: "#26233d",
+                pointBackgroundColor: "#f0b43a",
+                pointBorderColor: "#26233d",
+                pointRadius: 5,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { title: { display: true, text: "kg" } } }
+        }
+    });
+}
+
+// ---------- Gasto e duração da ração ----------
+function montarGasto(compras) {
+    var chaves = [];
+    var totais = [];
+    var somaGeral = 0;
+
+    // as compras vêm da mais antiga para a mais nova: soma o valor de cada mês
+    for (var i = 0; i < compras.length; i++) {
+        var chave = compras[i].dt_compra.substring(0, 7);
+        var valor = Number(compras[i].valor);
+        somaGeral = somaGeral + valor;
+
+        if (chaves.length > 0 && chaves[chaves.length - 1] == chave) {
+            totais[totais.length - 1] = totais[totais.length - 1] + valor;
+        } else {
+            chaves.push(chave);
+            totais.push(valor);
+        }
+    }
+
+    var rotulos = [];
+    for (var j = 0; j < chaves.length; j++) {
+        rotulos.push(nomeMes(chaves[j]));
+    }
+
+    if (totais.length == 0) {
+        kpi_gasto.textContent = "—";
+        kpi_gasto_sub.textContent = "Sem compras";
+        kpi_racao.textContent = "—";
+        kpi_racao_sub.textContent = "Sem compras";
+    } else {
+        var ultimoMes = totais[totais.length - 1];
+        var media = somaGeral / totais.length;
+
+        kpi_gasto.textContent = "R$ " + formatarNumero(ultimoMes, 2);
+        kpi_gasto_sub.textContent = "Média por mês: R$ " + formatarNumero(media, 2);
+
+        // duração = peso do último pacote (em gramas) dividido pelo consumo diário
+        var ultimaCompra = compras[compras.length - 1];
+        var pesoKg = Number(ultimaCompra.pesoKg);
+        var dias = Math.floor(pesoKg * 1000 / CONSUMO_DIARIO_G);
+
+        kpi_racao.textContent = dias + " dias";
+        kpi_racao_sub.textContent = "Pacote de " + String(pesoKg).replace(".", ",") + " kg, " + CONSUMO_DIARIO_G + " g por dia";
+    }
+
+    if (graficoGasto) {
+        graficoGasto.destroy();
+    }
+
+    graficoGasto = new Chart(cnv_gasto, {
+        type: "bar",
+        data: {
+            labels: rotulos,
+            datasets: [{
+                label: "Gasto (R$)",
+                data: totais,
+                backgroundColor: "#f0b43a",
+                borderColor: "#26233d",
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: "R$" } }
+            }
+        }
+    });
+}
+
+// ---------- Vacinas ----------
+function montarVacinas(vacinas) {
+    var hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    var jaVistas = [];
+    var emDia = 0;
+    var atrasadas = 0;
+    var html = "";
+
+    // as aplicações vêm da mais nova para a mais antiga: vale a primeira de cada vacina
+    for (var i = 0; i < vacinas.length; i++) {
+        var nome = vacinas[i].nome;
+
+        if (jaVistas.indexOf(nome) != -1) {
+            continue;
+        }
+        jaVistas.push(nome);
+
+        var texto = "";
+        var classe = "";
+
+        if (vacinas[i].dt_proxima_dose == null) {
+            texto = "Sem reforço";
+            classe = "sem-reforco";
+        } else {
+            var proxima = new Date(vacinas[i].dt_proxima_dose.substring(0, 10) + "T00:00:00");
+
+            if (proxima < hoje) {
+                texto = "Atrasada";
+                classe = "atrasada";
+                atrasadas++;
+            } else {
+                texto = "Em dia";
+                classe = "em-dia";
+                emDia++;
+            }
+        }
+
+        html = html + '<li><span>' + nome + '</span><span class="dash-status ' + classe + '">' + texto + '</span></li>';
+    }
+
+    if (jaVistas.length == 0) {
+        lista_vacinas.innerHTML = "<li>Nenhuma vacina registrada.</li>";
+        kpi_vacinas.textContent = "—";
+        kpi_vacinas_sub.textContent = "Sem vacinas";
+        return;
+    }
+
+    lista_vacinas.innerHTML = html;
+    kpi_vacinas.textContent = emDia + " de " + jaVistas.length;
+
+    if (atrasadas == 0) {
+        kpi_vacinas_sub.textContent = "Nenhuma atrasada";
+    } else {
+        kpi_vacinas_sub.textContent = atrasadas + " atrasada(s)";
+    }
+}
+</script>

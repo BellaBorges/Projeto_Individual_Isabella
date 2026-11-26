@@ -6,6 +6,18 @@ function listarRacas() {
     return database.executar(instrucaoSql);
 }
 
+function listarVacinas() {
+    var instrucaoSql = `SELECT id_vacina, nome FROM vacina ORDER BY nome ASC;`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function listarGatos(idUsuario) {
+    var instrucaoSql = `SELECT id_gato, nome FROM gato WHERE fk_usuario = ${idUsuario} ORDER BY nome ASC;`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function cadastrarGato(nome, idRaca, nascimento, idUsuario) {
     // data opcional: se vier vazia, grava NULL
     var nascimentoSql = nascimento ? `'${nascimento}'` : "NULL";
@@ -25,6 +37,8 @@ function registrarPesagem(idGato, peso, data) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
+
 
 function registrarVacina(idGato, idVacina, aplicacao, proxima) {
     var proximaSql = proxima ? `'${proxima}'` : "NULL";
@@ -50,6 +64,8 @@ function registrarCompra(idGato, marca, pesoKg, valor, data) {
 
 module.exports = {
     listarRacas,
+    listarVacinas,
+    listarGatos,
     cadastrarGato,
     registrarPesagem,
     registrarVacina,

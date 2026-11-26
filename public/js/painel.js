@@ -15,14 +15,25 @@ function sair() {
 function preencherSelect(idSelect, lista, campoId) {
     var select = document.getElementById(idSelect);
     select.innerHTML = "";
+
+    if (!Array.isArray(lista) || lista.length == 0) {
+        select.appendChild(new Option("Nenhum item cadastrado", ""));
+        return;
+    }
+
     for (var i = 0; i < lista.length; i++) {
         select.appendChild(new Option(lista[i].nome, lista[i][campoId]));
     }
 }
 
 function carregarGatos() {
-    fetch("/dashboard/gatos/" + idUsuario)
-        .then(function (resposta) { return resposta.json(); })
+    fetch("/gatos/usuario/" + idUsuario)
+        .then(function (resposta) {
+            if (!resposta.ok) {
+                throw new Error("Rota retornou " + resposta.status);
+            }
+            return resposta.json();
+        })
         .then(function (gatos) {
             preencherSelect("sel_peso_gato", gatos, "id_gato");
             preencherSelect("sel_vacina_gato", gatos, "id_gato");
@@ -33,14 +44,24 @@ function carregarGatos() {
 
 function carregarVacinas() {
     fetch("/gatos/vacinas")
-        .then(function (resposta) { return resposta.json(); })
+        .then(function (resposta) {
+            if (!resposta.ok) {
+                throw new Error("Rota retornou " + resposta.status);
+            }
+            return resposta.json();
+        })
         .then(function (vacinas) { preencherSelect("sel_vacina", vacinas, "id_vacina"); })
         .catch(function (erro) { console.log(erro); });
 }
 
 function carregarRacas() {
     fetch("/gatos/racas")
-        .then(function (resposta) { return resposta.json(); })
+        .then(function (resposta) {
+            if (!resposta.ok) {
+                throw new Error("Rota retornou " + resposta.status);
+            }
+            return resposta.json();
+        })
         .then(function (racas) { preencherSelect("sel_gato_raca", racas, "id_raca"); })
         .catch(function (erro) { console.log(erro); });
 }
