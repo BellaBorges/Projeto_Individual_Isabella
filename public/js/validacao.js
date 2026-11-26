@@ -54,7 +54,7 @@ function cadastrar() {
     }
 
     // Validou: manda para a API gravar na tabela usuario
-    fetch(URL_API + '/usuarios/cadastrar', {
+    fetch('/usuarios/cadastrar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -93,6 +93,7 @@ function cadastrar() {
 
 function entrar() {
     let email = ipt_email.value;
+    console.log(email)
     let senha = ipt_senha.value;
     let mensagensErro = '';
 
@@ -111,7 +112,7 @@ function entrar() {
     }
 
     // Confere e-mail e senha no banco (tabela usuario)
-    fetch(URL_API + '/usuarios/autenticar', {
+    fetch('/usuarios/autenticar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
